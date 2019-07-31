@@ -22,6 +22,7 @@ ng_module(
     deps = [
         "//src/material/core",
         "@npm//@material/radio",
+        "@npm//@material/form-field",
     ],
 )
 

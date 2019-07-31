@@ -6,7 +6,8 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {Component} from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
+import {MatRadioButton} from '@angular/material-experimental/mdc-radio';
 
 @Component({
   moduleId: module.id,
@@ -15,4 +16,22 @@ import {Component} from '@angular/core';
   styleUrls: ['mdc-radio-demo.css'],
 })
 export class MdcRadioDemo {
+  isAlignEnd: boolean = false;
+  isDisabled: boolean = false;
+  isRequired: boolean = false;
+  name: string = 'buttonname';
+  favoriteSeason: string = 'Autumn';
+  seasonOptions = [
+    'Winter',
+    'Spring',
+    'Summer',
+    'Autumn',
+  ];
+
+  @ViewChild('focusableRadio', {static: false}) focusableRadio: MatRadioButton;
+
+  focus() {
+    this.focusableRadio.focus();
+  }
+
 }

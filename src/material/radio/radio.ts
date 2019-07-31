@@ -386,12 +386,12 @@ export class MatRadioButton extends _MatRadioButtonMixinBase
       if (newCheckedState && this.radioGroup && this.radioGroup.value !== this.value) {
         this.radioGroup.selected = this;
       } else if (!newCheckedState && this.radioGroup && this.radioGroup.value === this.value) {
-
+        
         // When unchecking the selected radio button, update the selected radio
         // property on the group.
         this.radioGroup.selected = null;
       }
-
+      
       if (newCheckedState) {
         // Notify all radio buttons with the same name to un-check.
         this._radioDispatcher.notify(this.id, this.name);

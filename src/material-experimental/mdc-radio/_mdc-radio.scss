@@ -1,13 +1,70 @@
 @import '../mdc-helpers/mdc-helpers';
 
+@import '@material/radio/mixins';
+@import '@material/radio/variables';
+@import '@material/form-field/mixins';
+@import '@material/ripple/variables';
+@import '@material/theme/functions';
+@import '../mdc-helpers/mdc-helpers';
+
 @mixin mat-radio-theme-mdc($theme) {
+  $primary: mat-color(map-get($theme, primary));
+  $accent: mat-color(map-get($theme, accent));
+  $warn: mat-color(map-get($theme, warn));
+
+  // Save original values of MDC global variables. We need to save these so we can restore the
+  // variables to their original values and prevent unintended side effects from using this mixin.
+  $orig-mdc-radio-unchecked-color: $mdc-radio-unchecked-color;
+  $orig-mdc-radio-baseline-theme-color: $mdc-radio-baseline-theme-color;
+  $orig-mdc-radio-circle-color: $mdc-radio-circle-color;
+
   @include mat-using-mdc-theme($theme) {
-    // TODO: MDC theme styles here.
+    $mdc-radio-baseline-theme-color: primary !global;
+    $mdc-radio-unchecked-color: rgba(mdc-theme-prop-value(on-surface), .54) !global;
+    $mdc-radio-circle-color: rgba(mdc-theme-prop-value(on-surface), .26) !global;
+
+    @include mdc-radio-without-ripple($query: $mat-theme-styles-query);
+    @include mdc-form-field-core-styles($query: $mat-theme-styles-query);
+
+    // MDC's radio doesn't support a `color` property. We add support for it by adding a CSS
+    // class for accent and warn style, and applying the appropriate overrides below. Since we don't
+    // use MDC's ripple, we also need to set the color for our replacement ripple.
+    .mat-mdc-radio {
+      .mat-ripple-element {
+        background: $primary;
+      }
+
+      &.mat-accent {
+        $mdc-radio-baseline-theme-color: secondary !global;
+
+        @include mdc-radio-without-ripple($query: $mat-theme-styles-query);
+
+        .mat-ripple-element {
+          background: $accent;
+        }
+      }
+
+      &.mat-warn {
+        $mdc-radio-baseline-theme-color: error !global;
+
+        @include mdc-radio-without-ripple($query: $mat-theme-styles-query);
+
+        .mat-ripple-element {
+          background: $warn;
+        }
+      }
+    }
   }
+
+  // Restore original values of MDC global variables.
+  $mdc-radio-unchecked-color: $orig-mdc-radio-unchecked-color !global;
+  $mdc-radio-baseline-theme-color: $orig-mdc-radio-baseline-theme-color !global;
+  $mdc-radio-circle-color: $orig-mdc-radio-circle-color !global;
 }
 
 @mixin mat-radio-typography-mdc($config) {
   @include mat-using-mdc-typography($config) {
-    // TODO: MDC typography styles here.
+    @include mdc-radio-without-ripple($query: $mat-typography-styles-query);
+    @include mdc-form-field-core-styles($query: $mat-typography-styles-query);
   }
 }

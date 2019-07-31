@@ -1,12 +1,28 @@
 <div class="mdc-form-field">
-  <div class="mdc-radio" [ngClass]="_classes">
-    <input class="mdc-radio__native-control" type="radio" [id]="inputId" [disabled]="disabled">
+  <ng-template #labelContent>
+    <label [for]="inputId" #label>
+      <ng-content></ng-content>
+    </label>
+  </ng-template>
+  <ng-container *ngTemplateOutlet="labelPosition === 'before' ? labelContent : null"></ng-container>
+  <div #radio class="mdc-radio" [ngClass]="_classes" (click)="_activateRipple()">
+    <input class="mdc-radio__native-control"
+           type="radio"
+           #input
+           [id]="inputId"
+           [name]="name"
+           [checked]="checked"
+           [disabled]="disabled"
+           [required]="required"
+           [attr.aria-label]="ariaLabel"
+           [attr.aria-labelledby]="ariaLabelledby"
+           [attr.aria-describedby]="ariaDescribedby"
+           (change)="_onInputChange($event)"
+           (focus)="_onFocus()">
     <div class="mdc-radio__background">
       <div class="mdc-radio__outer-circle"></div>
       <div class="mdc-radio__inner-circle"></div>
     </div>
   </div>
-  <label [for]="inputId" #label>
-    <ng-content></ng-content>
-  </label>
+  <ng-container *ngTemplateOutlet="labelPosition === 'after' ? labelContent : null"></ng-container>
 </div>

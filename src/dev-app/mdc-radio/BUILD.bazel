@@ -10,6 +10,7 @@ ng_module(
         ":mdc_radio_demo_scss",
     ],
     deps = [
+        "//src/material-experimental/mdc-checkbox",
         "//src/material-experimental/mdc-radio",
         "@npm//@angular/router",
     ],
